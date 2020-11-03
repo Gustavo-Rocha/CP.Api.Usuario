@@ -92,6 +92,7 @@ namespace CP.Api.Usuario.Controllers
             return NoContent();
         }
 
+        
         /// <summary>
         /// Tras o usuário cadastrado
         /// </summary>
@@ -155,4 +156,6 @@ namespace CP.Api.Usuario.Controllers
             return _context.Usuarios.Any(e => e.Cpf == Cpf);
         }
     }
+
+   
 }
