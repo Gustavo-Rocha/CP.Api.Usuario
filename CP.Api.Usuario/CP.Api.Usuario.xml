@@ -9,7 +9,6 @@
             Tras todos os usuários cadastrados
             em Uma lista para serem exibidos.
             </summary>
-            <param name="temperatura">Temperatura em Fahrenheit</param>
             <returns>Retorna os usuários cadastrados no banco de dados</returns>
         </member>
         <member name="M:CP.Api.Usuario.Controllers.UsuarioController.Get(System.String)">
@@ -19,27 +18,26 @@
             <param name="Cpf">CPF usado para identificação do usuário</param>
             <returns>Retorna os usuários cadastrados no banco de dados</returns>
         </member>
-        <member name="M:CP.Api.Usuario.Controllers.UsuarioController.Put(CP.Api.Usuario.Models.Usuarios)">
+        <member name="M:CP.Api.Usuario.Controllers.UsuarioController.Put(CP.Api.Usuario.Models.Usuario)">
             <summary>
-            Tras o usuário cadastrado
+            Altera o usuário no Banco de dados
             </summary>
-            <param name="Cpf">CPF usado para identificação do usuário</param>
             <param name="usuarios">Objeto utilizado para ser inserido na base, com a atualização </param>
-            <returns>Retorna o usuário cadastrados </returns>
+            <returns>StatusCode 204 </returns>
         </member>
-        <member name="M:CP.Api.Usuario.Controllers.UsuarioController.Post(CP.Api.Usuario.Models.Usuarios)">
+        <member name="M:CP.Api.Usuario.Controllers.UsuarioController.Post(CP.Api.Usuario.Models.Usuario)">
             <summary>
             Tras o usuário cadastrado
             </summary>
-            <param name="Usuario">Objeto usado para cadastrar o usuario</param>
+            <param name="usuarios">Objeto usado para cadastrar o usuario</param>
             <returns>Retorna o usuário cadastrados </returns>
         </member>
         <member name="M:CP.Api.Usuario.Controllers.UsuarioController.Delete(System.String)">
             <summary>
-            Tras o usuário cadastrado
+            Deleta o usuário da base de dados
             </summary>
-            <param name="Cpf">CPF usado para exclusão do usuário</param>
-            <returns>Retorna os usuários cadastrados no banco de dados</returns>
+            <param name="Cpf">CPF usado para encontrar usuario na base e excluí-lo</param>
+            <returns>Retorna o usuário excluído do banco de dados</returns>
         </member>
     </members>
 </doc>

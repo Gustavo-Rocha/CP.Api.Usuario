@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CP.Api.Usuario.Models
 {
-    public class Usuarios
+    public class Usuario
     {
         [Required]
         [StringLength(11, MinimumLength = 11)]
@@ -15,7 +15,7 @@ namespace CP.Api.Usuario.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string Cpf { get; set; }
         //[RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Nome Inválido")]
-        [StringLength(60, MinimumLength =3 )]
+        [StringLength(60, MinimumLength = 3)]
         public string Nome { get; set; }
 
         [StringLength(9, MinimumLength = 8)]

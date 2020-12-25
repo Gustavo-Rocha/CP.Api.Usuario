@@ -1,22 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using CP.Api.Usuario.Models;
 using CP.Api.Usuario.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Swagger;
+using System.IO;
 
 
 
@@ -35,7 +26,9 @@ namespace CP.Api.Usuario
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
             var connectionString = Configuration.GetConnectionString("Default");
+
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
 
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
@@ -44,16 +37,12 @@ namespace CP.Api.Usuario
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1",
-                    new OpenApiInfo 
+                    new OpenApiInfo
                     {
                         Title = "Crud de Usuários",
                         Version = "v1",
                         Description = "API para CRUD de usuários",
-                        //Contact = new OpenApiContact
-                        //{
-                        //    Name = "Gustavo Oliveira",
-                        //    Url = "https://github.com/Gustavo-Rocha"
-                        //}
+
                     });
 
                 string caminhoAplicacao =
@@ -63,7 +52,7 @@ namespace CP.Api.Usuario
                 string caminhoXmlDoc =
                     Path.Combine(caminhoAplicacao, $"{nomeAplicacao}.xml");
 
-                c.IncludeXmlComments(caminhoXmlDoc);
+                //c.IncludeXmlComments(caminhoXmlDoc);
             });
         }
 

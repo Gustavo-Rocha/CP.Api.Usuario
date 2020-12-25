@@ -1,11 +1,7 @@
 ﻿using CP.Api.Usuario.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace CP.Api.Usuario.Repository
 {
@@ -17,15 +13,37 @@ namespace CP.Api.Usuario.Repository
         {
             _context = context;
         }
-        public void Alterar(Usuarios usuario)
+
+        public virtual void DetachLocal(Func<Models.Usuario, bool> predicate)
         {
+            var local = _context.Set<Models.Usuario>().Local.Where(predicate).FirstOrDefault();
+            if(!local.Equals(null))
+            {
+                _context.Entry(local).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+            }
+
+        }
+
+
+        public void Alterar(Models.Usuario usuario)
+        {
+
+            this.DetachLocal(_ => _.Cpf == usuario.Cpf);
+            
+
+
+
+            //_context.Entry<Models.Usuario>(usuario).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
             _context.Usuarios.Update(usuario);
+            //_context.Entry(usuario).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+            //_context.Entry<Models.Usuario>(usuario).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+
             _context.SaveChanges();
         }
 
-        public void Cadastrar(Usuarios usuario)
+        public void Cadastrar(Models.Usuario usuario)
         {
-            
+
 
             try
             {
@@ -39,26 +57,22 @@ namespace CP.Api.Usuario.Repository
             }
         }
 
-        public IList<Usuarios> Consultar()
+        public List<Models.Usuario> Consultar()
         {
             return _context.Usuarios.ToList();
         }
 
-        public Usuarios ConsultarPorParametro(string cpf)
+        public Models.Usuario ConsultarPorParametro(string cpf)
         {
             return _context.Usuarios.Find(cpf);
         }
 
-        public void Excluir(Usuarios usuario)
+        public void Excluir(Models.Usuario usuario)
         {
-            
-            
-                _context.Usuarios.Remove(usuario);
-                _context.SaveChanges();
-            
-            
 
-            
+            _context.Usuarios.Remove(usuario);
+            _context.SaveChanges();
+
         }
     }
 }

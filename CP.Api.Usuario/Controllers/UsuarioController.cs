@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using CP.Api.Usuario.Models;
+using CP.Api.Usuario.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CP.Api.Usuario.Models;
-using CP.Api.Usuario.Repository;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CP.Api.Usuario.Controllers
 {
@@ -16,12 +13,12 @@ namespace CP.Api.Usuario.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        private readonly ApplicationContext _context;
+
         private readonly IUsuarioRepository usuarioRepository;
 
-        public UsuarioController(ApplicationContext context,IUsuarioRepository usuarioRepository)
+        public UsuarioController(IUsuarioRepository usuarioRepository)
         {
-            _context = context;
+
             this.usuarioRepository = usuarioRepository;
         }
 
@@ -29,89 +26,79 @@ namespace CP.Api.Usuario.Controllers
         /// Tras todos os usuários cadastrados
         /// em Uma lista para serem exibidos.
         /// </summary>
-        /// <param name="temperatura">Temperatura em Fahrenheit</param>
         /// <returns>Retorna os usuários cadastrados no banco de dados</returns>
 
         // GET: api/Usuario
         [HttpGet]
-        public async Task<IEnumerable<Usuarios>> Get()
+        public ActionResult<IEnumerable<Models.Usuario>> Get()
         {
+
             var retorno =  usuarioRepository.Consultar();
-            return retorno;
+            return Ok(retorno);
 
         }
-        
-        
-         /// <summary>
-         /// Tras o usuário cadastrado
-         /// </summary>
-         /// <param name="Cpf">CPF usado para identificação do usuário</param>
-         /// <returns>Retorna os usuários cadastrados no banco de dados</returns>
-        // GET: api/Usuario/5
-        [HttpGet("{Cpf}")]
-        public async Task<ActionResult<Usuarios>> Get([Required]string Cpf)
-        {
-                 
-            var usuarios = usuarioRepository.ConsultarPorParametro(Cpf);
-           
-            if (usuarios == null)
-            {
-                return NotFound();
-            }
 
-            return usuarios;
-        }
 
         /// <summary>
         /// Tras o usuário cadastrado
         /// </summary>
         /// <param name="Cpf">CPF usado para identificação do usuário</param>
+        /// <returns>Retorna os usuários cadastrados no banco de dados</returns>
+        // GET: api/Usuario/5
+        [HttpGet("{Cpf}")]
+        public ActionResult<Models.Usuario> Get([Required] string Cpf)
+        {
+
+            var usuarios = usuarioRepository.ConsultarPorParametro(Cpf);
+
+            if (usuarios == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(usuarios);
+        }
+
+        /// <summary>
+        /// Altera o usuário no Banco de dados
+        /// </summary>
         /// <param name="usuarios">Objeto utilizado para ser inserido na base, com a atualização </param>
-        /// <returns>Retorna o usuário cadastrados </returns>
+        /// <returns>StatusCode 204 </returns>
 
         // PUT: api/Usuario/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]Usuarios usuarios)
+        public ActionResult<Models.Usuario> Put([FromBody] Models.Usuario usuarios)
         {
-
             
-                //if (ModelState.IsValid)
-               // {
-                    if (!UsuariosExists(usuarios.Cpf))
-                    {
-                        return NotFound();
-                    }
+            if (!UsuariosExists(usuarios.Cpf))
+            {
+                return NotFound();
+            }
 
-                    usuarioRepository.Alterar(usuarios);
-                //}               
-          
-            
+            usuarioRepository.Alterar(usuarios);
 
             return NoContent();
         }
 
-        
+
         /// <summary>
         /// Tras o usuário cadastrado
         /// </summary>
-        /// <param name="Usuario">Objeto usado para cadastrar o usuario</param>
+        /// <param name="usuarios">Objeto usado para cadastrar o usuario</param>
         /// <returns>Retorna o usuário cadastrados </returns>
 
         // POST: api/Usuario
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Usuarios>> Post(Usuarios usuarios)
+        public ActionResult<Models.Usuario> Post(Models.Usuario usuarios)
         {
 
             try
-            {
-                if (ModelState.IsValid)
-                {
-                    usuarioRepository.Cadastrar(usuarios);
-                }
+            {  
+                usuarioRepository.Cadastrar(usuarios);  
             }
             catch (DbUpdateException)
             {
@@ -128,34 +115,42 @@ namespace CP.Api.Usuario.Controllers
             return CreatedAtAction("Get", new { Cpf = usuarios.Cpf }, usuarios);
         }
 
+
+
+
+
         /// <summary>
-        /// Tras o usuário cadastrado
+        /// Deleta o usuário da base de dados
         /// </summary>
-        /// <param name="Cpf">CPF usado para exclusão do usuário</param>
-        /// <returns>Retorna os usuários cadastrados no banco de dados</returns>
+        /// <param name="Cpf">CPF usado para encontrar usuario na base e excluí-lo</param>
+        /// <returns>Retorna o usuário excluído do banco de dados</returns>
 
         // DELETE: api/Usuario/5
         [HttpDelete("{Cpf}")]
-        public async Task<ActionResult<Usuarios>> Delete(string Cpf)
+        public ActionResult<Models.Usuario> Delete(string Cpf)
         {
             var usuarios = usuarioRepository.ConsultarPorParametro(Cpf);
             if (usuarios == null)
             {
                 return NotFound();
             }
-            if (ModelState.IsValid)
-            {
-                usuarioRepository.Excluir(usuarios);
-            }
 
-            return usuarios;
+
+            usuarioRepository.Excluir(usuarios);
+
+
+            return Ok(usuarios);
         }
 
         private bool UsuariosExists(string Cpf)
         {
-            return _context.Usuarios.Any(e => e.Cpf == Cpf);
+
+            var user = usuarioRepository.ConsultarPorParametro(Cpf);
+            
+            return user != null;
+
         }
     }
 
-   
+
 }
