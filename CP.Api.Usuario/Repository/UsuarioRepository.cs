@@ -69,6 +69,7 @@ namespace CP.Api.Usuario.Repository
 
         public void Excluir(Models.Usuario usuario)
         {
+            this.DetachLocal(_ => _.Cpf == usuario.Cpf);
 
             _context.Usuarios.Remove(usuario);
             _context.SaveChanges();

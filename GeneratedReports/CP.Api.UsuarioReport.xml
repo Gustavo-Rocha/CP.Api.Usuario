@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoverageSession xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="4.7.922.0">
+  <Summary numSequencePoints="0" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" maxCrapScore="0" minCrapScore="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="0" />
+  <Modules>
+    <Module skippedDueTo="Filter" hash="CD-B3-6C-61-6C-B5-13-F9-86-FD-E6-15-61-71-66-36-DC-3D-2E-3A">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_64\mscorlib\v4.0_4.0.0.0__b77a5c561934e089\mscorlib.dll</ModulePath>
+      <ModuleTime>2020-10-08T02:19:17.5217093Z</ModuleTime>
+      <ModuleName>mscorlib</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="36-D3-16-1D-E5-94-AB-A3-46-D7-B1-4A-01-C5-05-BC-6D-37-1E-C9">
+      <ModulePath>C:\Dev\CP.Api.Usuario\tools\NUnit.ConsoleRunner.3.12.0\tools\nunit3-console.exe</ModulePath>
+      <ModuleTime>2021-01-17T23:32:56Z</ModuleTime>
+      <ModuleName>nunit3-console</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="3E-65-A2-05-7C-67-F0-C6-A0-B8-F5-C9-09-73-B6-EC-86-B4-9C-58">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System\v4.0_4.0.0.0__b77a5c561934e089\System.dll</ModulePath>
+      <ModuleTime>2020-10-08T02:21:34Z</ModuleTime>
+      <ModuleName>System</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="47-CD-05-C4-63-6A-43-51-93-AC-FA-1D-26-FE-B8-9B-32-30-D5-7A">
+      <ModulePath>C:\Dev\CP.Api.Usuario\tools\NUnit.ConsoleRunner.3.12.0\tools\nunit.engine.api.dll</ModulePath>
+      <ModuleTime>2021-01-17T23:32:54Z</ModuleTime>
+      <ModuleName>nunit.engine.api</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="96-9E-42-E6-1E-13-3A-9B-1B-66-FB-61-8A-F3-23-9A-43-86-70-AF">
+      <ModulePath>C:\Dev\CP.Api.Usuario\tools\NUnit.ConsoleRunner.3.12.0\tools\nunit.engine.dll</ModulePath>
+      <ModuleTime>2021-01-17T23:32:56Z</ModuleTime>
+      <ModuleName>nunit.engine</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="10-B5-F0-48-F4-5D-A0-BD-6C-1F-44-32-CC-27-4F-A7-74-BB-F3-42">
+      <ModulePath>C:\Dev\CP.Api.Usuario\tools\NUnit.ConsoleRunner.3.12.0\tools\nunit.engine.core.dll</ModulePath>
+      <ModuleTime>2021-01-17T23:32:54Z</ModuleTime>
+      <ModuleName>nunit.engine.core</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="BA-94-4B-50-1E-D5-31-87-F3-25-6E-BA-07-71-E4-9F-22-0D-B8-34">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Xml\v4.0_4.0.0.0__b77a5c561934e089\System.Xml.dll</ModulePath>
+      <ModuleTime>2019-03-19T04:46:51.77351Z</ModuleTime>
+      <ModuleName>System.Xml</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="9E-65-4E-91-D0-78-C5-2E-17-2A-8D-C3-08-B2-E7-5D-5D-FD-27-C7">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_64\System.Web\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Web.dll</ModulePath>
+      <ModuleTime>2021-01-05T01:27:55.4849868Z</ModuleTime>
+      <ModuleName>System.Web</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="A7-7B-4E-D4-75-E8-13-EA-81-E3-7A-CE-3B-E3-5B-7B-B9-B9-D8-B3">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Runtime.Remoting\v4.0_4.0.0.0__b77a5c561934e089\System.Runtime.Remoting.dll</ModulePath>
+      <ModuleTime>2019-03-19T04:46:46.6637279Z</ModuleTime>
+      <ModuleName>System.Runtime.Remoting</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="C8-2E-64-82-9F-3E-E5-68-28-EC-A3-5B-05-18-0A-CC-70-C1-0D-04">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Configuration\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Configuration.dll</ModulePath>
+      <ModuleTime>2020-06-05T05:04:06Z</ModuleTime>
+      <ModuleName>System.Configuration</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="37-D7-83-75-35-25-58-5A-4B-07-2A-02-64-AE-D2-2C-96-D7-21-23">
+      <ModulePath>C:\Dev\CP.Api.Usuario\tools\NUnit.ConsoleRunner.3.12.0\tools\testcentric.engine.metadata.dll</ModulePath>
+      <ModuleTime>2020-09-03T21:49:48Z</ModuleTime>
+      <ModuleName>testcentric.engine.metadata</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="B2-7C-42-24-4C-5E-F5-3A-63-CE-7A-24-24-24-F3-E2-5D-72-7E-19">
+      <ModulePath>C:\Dev\CP.Api.Usuario\tools\NUnit.ConsoleRunner.3.12.0\tools\agents\net40\nunit-agent.exe</ModulePath>
+      <ModuleTime>2021-01-17T23:32:56Z</ModuleTime>
+      <ModuleName>nunit-agent</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="D3-46-3F-DA-6B-2D-2A-53-C3-B3-24-DE-E9-63-5F-BF-7A-6B-AB-60">
+      <ModulePath>C:\Dev\CP.Api.Usuario\tools\NUnit.ConsoleRunner.3.12.0\tools\agents\net40\testcentric.engine.metadata.dll</ModulePath>
+      <ModuleTime>2020-09-03T21:49:40Z</ModuleTime>
+      <ModuleName>testcentric.engine.metadata</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="16-2A-6A-6B-DF-CD-D6-7C-53-72-D1-C2-AE-69-5C-68-F9-E9-F2-2D">
+      <ModulePath>C:\Dev\CP.Api.Usuario\CP.API.Usuario.TesteIntegrado\bin\Debug\netcoreapp3.1\nunit.framework.dll</ModulePath>
+      <ModuleTime>2019-05-15T02:37:24Z</ModuleTime>
+      <ModuleName>nunit.framework</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="6B-DB-9E-A4-D9-AD-57-49-1E-2A-9F-0B-2F-0B-7D-7E-F1-A9-5A-9E">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\netstandard\v4.0_2.0.0.0__cc7b13ffcd2ddd51\netstandard.dll</ModulePath>
+      <ModuleTime>2019-03-19T04:46:49.1170451Z</ModuleTime>
+      <ModuleName>netstandard</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="55-2F-2D-21-CF-29-E1-F1-4D-1E-23-9C-7A-43-9B-CA-B6-81-97-1D">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Core\v4.0_4.0.0.0__b77a5c561934e089\System.Core.dll</ModulePath>
+      <ModuleTime>2020-12-02T22:45:24Z</ModuleTime>
+      <ModuleName>System.Core</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="CF-D8-29-91-C7-6F-B9-46-FA-EE-BF-89-4A-5F-C7-15-9B-84-90-A6">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\mscorlib.resources\v4.0_4.0.0.0_pt-BR_b77a5c561934e089\mscorlib.resources.dll</ModulePath>
+      <ModuleTime>2019-03-19T12:46:21.1361644Z</ModuleTime>
+      <ModuleName>mscorlib.resources</ModuleName>
+      <Classes />
+    </Module>
+  </Modules>
+</CoverageSession>

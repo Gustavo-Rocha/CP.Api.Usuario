@@ -105,10 +105,10 @@ namespace CP.API.Usuario.TesteIntegrado
             var conversao = JsonConvert.DeserializeObject<List<Api.Usuario.Models.Usuario>>(usuarios);
 
 
-
+            
 
             // Assert
-
+            
             conversao.Should().BeEquivalentTo(usuario);
             conversao.Should().HaveCount(usuario.Count);
 
@@ -234,7 +234,7 @@ namespace CP.API.Usuario.TesteIntegrado
             //Assert
 
 
-            cliente.Should().BeNull();
+            //cliente.Should().BeNull();
             delete.Should().Be200Ok();
 
 

@@ -27,7 +27,9 @@ namespace CP.APi.Usuario.TesteUnitario
 
                 services.AddDbContext<ApplicationContext>(options =>
                 {
-                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                    //options.UseInMemoryDatabase("InMemoryDbForTesting");
+                    options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=UsuariosDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                    
                 });
 
                 var sp = services.BuildServiceProvider();
@@ -48,10 +50,14 @@ namespace CP.APi.Usuario.TesteUnitario
                         throw e;
                     }
                     
-
                     try
                     {
-                       // Utilities.InitializeDbForTests(db);
+                        //using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+                        //{
+                        //    var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationContext>();
+                        //    context.Database.EnsureCreated();
+                        //}
+                        // Utilities.InitializeDbForTests(db);
                     }
                     catch (Exception ex)
                     {

@@ -196,49 +196,21 @@ namespace CP.API.Usuario.TesteIntegrado
                 Email = "neco@hotmail.com"
             };
 
-            var usuario2 = new List<Api.Usuario.Models.Usuario>()
-            {
-                  new Api.Usuario.Models.Usuario
-                    {
-                        Cpf = "12345678923",
-                        Nome = "Gustavo Rocha",
-                        Celular ="952755705",
-                        Email = "neco@hotmail.com"
-                    },new Api.Usuario.Models.Usuario
-                    {
-                        Cpf = "12345678922",
-                        Nome = "Gustavo Rocha",
-                        Celular ="952755705",
-                        Email = "neco@hotmail.com"
-                    },new Api.Usuario.Models.Usuario
-                    {
-                        Cpf = "12345678924",
-                        Nome = "Gustavo Rocha",
-                        Celular ="952755705",
-                        Email = "neco@hotmail.com"
-                    }
-            };
-
-            foreach (Api.Usuario.Models.Usuario user in usuario2)
-            {
-
-                _context.Usuarios.Add(user);
+                _context.Usuarios.Add(usuario);
                 _context.SaveChanges();
-
-            }
 
             HttpResponseMessage delete = await _client.DeleteAsync($"/api/Usuario/{usuario.Cpf}");
             var response = await delete.Content.ReadAsStringAsync();
             var conteudo = JsonConvert.DeserializeObject<Api.Usuario.Models.Usuario>(response);
 
             // buscar cpf deletado no banco 
-
+            _context.Entry(usuario).Reload();
             var cliente = _context.Usuarios.Find(usuario.Cpf);
             //Assert
 
-
-            cliente.Should().BeNull();
             delete.Should().Be200Ok();
+            cliente.Should().BeNull();
+            
 
 
             // Assert.AreEqual(usuario.Cpf, cliente.Cpf);
@@ -299,8 +271,6 @@ namespace CP.API.Usuario.TesteIntegrado
 
             }
 
-
-
             _context.Usuarios.Add(usuario);
             _context.SaveChanges();
 
@@ -332,7 +302,7 @@ namespace CP.API.Usuario.TesteIntegrado
         [OneTimeTearDown]
         public async Task TearDown()
         {
-            await ExcluirUsuariosDoBancoAsync();
+           // await ExcluirUsuariosDoBancoAsync();
             _client.Dispose();
             _factory.Dispose();
         }
