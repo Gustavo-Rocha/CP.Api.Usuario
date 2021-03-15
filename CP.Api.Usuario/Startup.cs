@@ -57,18 +57,16 @@ namespace CP.Api.Usuario
                 //c.IncludeXmlComments(caminhoXmlDoc);
             });
 
-            services.AddHealthChecks();
 
-            services.AddHealthChecks()
-            .AddCheck<ExampleHealthCheck>("example_health_check");
-
-            services.AddHealthChecks()
-                .AddCheck<HealthCheck>(
-                    "health_check",
-                     failureStatus: HealthStatus.Degraded,
-                     tags: new[] { "example" });
             //services.AddHealthChecks()
-            //    .AddSqlServer(Configuration["ConnectionStrings:DefaultConnection"]);
+            //    .AddCheck<HealthCheck>(
+            //        "health_check",
+            //         failureStatus: HealthStatus.Degraded,
+            //         tags: new[] { "example" });
+
+            services.AddHealthChecks()
+                .AddSqlServer(connectionString);
+
             //services.AddHealthChecks()
             //  .AddDbContextCheck<ApplicationContext>();
         }

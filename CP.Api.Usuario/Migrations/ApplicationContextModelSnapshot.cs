@@ -4,12 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CP.Api.Usuario.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
+    [ExcludeFromCodeCoverage]
     partial class ApplicationContextModelSnapshot : ModelSnapshot
     {
+
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
@@ -21,7 +24,7 @@ namespace CP.Api.Usuario.Migrations
             modelBuilder.Entity("CP.Api.Usuario.Models.Usuarios", b =>
                 {
                     b.Property<string>("Cpf")
-                        .HasColumnType("nvarchar(11)")
+                        .HasColumnType("nvarchar(5)")
                         .HasMaxLength(11);
 
                     b.Property<string>("Celular")
@@ -33,8 +36,8 @@ namespace CP.Api.Usuario.Migrations
                         .HasMaxLength(60);
 
                     b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(3)")
-                        .HasMaxLength(3);
+                        .HasColumnType("nvarchar(60)")
+                        .HasMaxLength(60);
 
                     b.HasKey("Cpf");
 

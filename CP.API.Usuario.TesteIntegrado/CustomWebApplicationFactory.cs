@@ -42,7 +42,10 @@ namespace CP.APi.Usuario.TesteUnitario
                         .GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
                     try
                     {
+                        db.Database.EnsureDeleted();
                         db.Database.EnsureCreated();
+                        //db.Database.Migrate();
+                        //db.Update(migrate);
                     }
                     catch (Exception e)
                     {

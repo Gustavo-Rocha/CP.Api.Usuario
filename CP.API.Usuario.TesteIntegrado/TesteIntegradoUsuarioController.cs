@@ -30,22 +30,29 @@ namespace CP.API.Usuario.TesteIntegrado
         //}
 
         [OneTimeSetUp]
-        public async Task  PreparaTeste()
+        public async Task PreparaTeste()
         {
-           
+
             _factory = new WebApplicationFactory<Startup>();
             _client = _factory.CreateClient();
-            await ExcluirUsuariosDoBancoAsync();
-            
+
 
         }
+
+        [SetUp]
+        public async Task Excluir()
+        {
+            await ExcluirUsuariosDoBancoAsync();
+
+        }
+
 
 
         public async Task ExcluirUsuariosDoBancoAsync()
         {
 
 
-           List<Api.Usuario.Models.Usuario> clientes= _context.Usuarios.ToList();
+            List<Api.Usuario.Models.Usuario> clientes = _context.Usuarios.ToList();
 
             //HttpResponseMessage response = await _client.GetAsync("/api/Usuario");
             //string usuarios = await response.Content.ReadAsStringAsync();
@@ -64,10 +71,10 @@ namespace CP.API.Usuario.TesteIntegrado
                 _context.SaveChanges();
             }
 
-            
+
         }
 
-        
+
 
 
         [Test]
@@ -78,19 +85,19 @@ namespace CP.API.Usuario.TesteIntegrado
             {
                   new Api.Usuario.Models.Usuario
                     {
-                        Cpf = "12345678923",
+                        Cpf = new Random().Next(0, 999999999).ToString("00000000000"),
                         Nome = "Gustavo Rocha",
                         Celular ="952755705",
                         Email = "neco@hotmail.com"
                     },new Api.Usuario.Models.Usuario
                     {
-                        Cpf = "12345678922",
+                        Cpf = new Random().Next(0, 999999999).ToString("00000000000"),
                         Nome = "Gustavo Rocha",
                         Celular ="952755705",
                         Email = "neco@hotmail.com"
                     },new Api.Usuario.Models.Usuario
                     {
-                        Cpf = "12345678924",
+                        Cpf = new Random().Next(0, 999999999).ToString("00000000000"),
                         Nome = "Gustavo Rocha",
                         Celular ="952755705",
                         Email = "neco@hotmail.com"
@@ -105,10 +112,10 @@ namespace CP.API.Usuario.TesteIntegrado
             var conversao = JsonConvert.DeserializeObject<List<Api.Usuario.Models.Usuario>>(usuarios);
 
 
-            
+
 
             // Assert
-            
+
             conversao.Should().BeEquivalentTo(usuario);
             conversao.Should().HaveCount(usuario.Count);
 
@@ -121,46 +128,15 @@ namespace CP.API.Usuario.TesteIntegrado
             //Arrange
             var usuario = new Api.Usuario.Models.Usuario
             {
-                Cpf = "01020304055",
+                Cpf = new Random().Next(0, 999999999).ToString("00000000000"),
                 Nome = "Gustavo Rocha",
                 Celular = "952755705",
                 Email = "neco@hotmail.com"
             };
 
-            var usuario2 = new List<Api.Usuario.Models.Usuario>()
-            {
-                  new Api.Usuario.Models.Usuario
-                    {
-                        Cpf = "12345678923",
-                        Nome = "Gustavo Rocha",
-                        Celular ="952755705",
-                        Email = "neco@hotmail.com"
-                    },new Api.Usuario.Models.Usuario
-                    {
-                        Cpf = "12345678922",
-                        Nome = "Gustavo Rocha",
-                        Celular ="952755705",
-                        Email = "neco@hotmail.com"
-                    },new Api.Usuario.Models.Usuario
-                    {
-                        Cpf = "12345678924",
-                        Nome = "Gustavo Rocha",
-                        Celular ="952755705",
-                        Email = "neco@hotmail.com"
-                    }
-            };
-
-            foreach (Api.Usuario.Models.Usuario user in usuario2)
-            {
-
-                _context.Usuarios.Add(user);
-                _context.SaveChanges();
-
-            }
-
             //Act
             HttpResponseMessage post = await _client.PostAsync("/api/Usuario", new StringContent(
-                JsonConvert.SerializeObject(usuario),Encoding.UTF8, "application/Json"));
+                JsonConvert.SerializeObject(usuario), Encoding.UTF8, "application/Json"));
 
             var resposta = await post.Content.ReadAsStringAsync();
 
@@ -169,7 +145,7 @@ namespace CP.API.Usuario.TesteIntegrado
             var cliente = _context.Usuarios.Find(usuario.Cpf);
 
             //Assert
-            
+
 
             post.Should().Be201Created();
             usuario.Should().BeEquivalentTo(cliente);
@@ -177,7 +153,7 @@ namespace CP.API.Usuario.TesteIntegrado
 
             // Assert.AreEqual(usuario.Cpf, cliente.Cpf);
 
-           
+
 
         }
 
@@ -187,7 +163,7 @@ namespace CP.API.Usuario.TesteIntegrado
             //Arrange
             var usuario = new Api.Usuario.Models.Usuario
             {
-                Cpf = "12345678923",   
+                Cpf = "12345678923",
                 Nome = "Gustavo Rocha",
                 Celular = "952755705",
                 Email = "neco@hotmail.com"
@@ -225,7 +201,7 @@ namespace CP.API.Usuario.TesteIntegrado
             }
 
             HttpResponseMessage delete = await _client.DeleteAsync($"/api/Usuario/{usuario.Cpf}");
-            var response =await  delete.Content.ReadAsStringAsync();
+            var response = await delete.Content.ReadAsStringAsync();
             var conteudo = JsonConvert.DeserializeObject<Api.Usuario.Models.Usuario>(response);
 
             // buscar cpf deletado no banco 
@@ -240,7 +216,7 @@ namespace CP.API.Usuario.TesteIntegrado
 
             // Assert.AreEqual(usuario.Cpf, cliente.Cpf);
 
-           
+
 
         }
 
@@ -250,7 +226,7 @@ namespace CP.API.Usuario.TesteIntegrado
             //Arrange
             var usuario = new Api.Usuario.Models.Usuario
             {
-                Cpf = "12345678900",
+                Cpf = new Random().Next(0, 999999999).ToString("00000000000"),
                 Nome = "Gustavo Rocha",
                 Celular = "123456789",
                 Email = "neco@hotmail.com"
@@ -265,48 +241,17 @@ namespace CP.API.Usuario.TesteIntegrado
                 Email = "neco@gmail.com"
             };
 
-            var usuario3 = new List<Api.Usuario.Models.Usuario>()
-            {
-                  new Api.Usuario.Models.Usuario
-                    {
-                        Cpf = "12345678923",
-                        Nome = "Gustavo Rocha",
-                        Celular ="952755705",
-                        Email = "neco@hotmail.com"
-                    },new Api.Usuario.Models.Usuario
-                    {
-                        Cpf = "12345678922",
-                        Nome = "Gustavo Rocha",
-                        Celular ="952755705",
-                        Email = "neco@hotmail.com"
-                    },new Api.Usuario.Models.Usuario
-                    {
-                        Cpf = "12345678924",
-                        Nome = "Gustavo Rocha",
-                        Celular ="952755705",
-                        Email = "neco@hotmail.com"
-                    }
-            };
-
-            foreach (Api.Usuario.Models.Usuario user in usuario3)
-            {
-
-                _context.Usuarios.Add(user);
-                _context.SaveChanges();
-
-            }
-
 
 
             _context.Usuarios.Add(usuario);
             _context.SaveChanges();
-       
+
 
             //Act
             HttpResponseMessage response = await _client.PutAsync("/api/Usuario", new StringContent(
                 JsonConvert.SerializeObject(usuario2), Encoding.UTF8, "application/Json"));
 
-             _context.Entry(usuario).Reload();
+            _context.Entry(usuario).Reload();
             var cliente = usuario;
 
 
@@ -319,7 +264,7 @@ namespace CP.API.Usuario.TesteIntegrado
             //Assert.AreEqual(usuario.Celular, cliente.Celular);
 
 
-            
+
 
         }
 

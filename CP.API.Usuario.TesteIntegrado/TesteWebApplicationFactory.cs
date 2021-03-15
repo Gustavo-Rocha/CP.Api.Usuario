@@ -22,7 +22,7 @@ namespace CP.API.Usuario.TesteIntegrado
         private HttpClient _client;
         public ApplicationContext _context = new ApplicationContext();
         IList<Api.Usuario.Models.Usuario> ListaDeUsuarioPadrao;
-        
+
 
 
 
@@ -38,8 +38,14 @@ namespace CP.API.Usuario.TesteIntegrado
 
             _factory = new CustomWebApplicationFactory<Startup>();
             _client = _factory.CreateClient();
-            await ExcluirUsuariosDoBancoAsync();
 
+
+        }
+
+        [SetUp]
+        public async Task Excluir()
+        {
+            await ExcluirUsuariosDoBancoAsync();
 
         }
 
@@ -81,19 +87,19 @@ namespace CP.API.Usuario.TesteIntegrado
             {
                   new Api.Usuario.Models.Usuario
                     {
-                        Cpf = "12345678923",
+                        Cpf = new Random().Next(0, 999999999).ToString("00000000000"),
                         Nome = "Gustavo Rocha",
                         Celular ="952755705",
                         Email = "neco@hotmail.com"
                     },new Api.Usuario.Models.Usuario
                     {
-                        Cpf = "12345678922",
+                        Cpf = new Random().Next(0, 999999999).ToString("00000000000"),
                         Nome = "Gustavo Rocha",
                         Celular ="952755705",
                         Email = "neco@hotmail.com"
                     },new Api.Usuario.Models.Usuario
                     {
-                        Cpf = "12345678924",
+                        Cpf = new Random().Next(0, 999999999).ToString("00000000000"),
                         Nome = "Gustavo Rocha",
                         Celular ="952755705",
                         Email = "neco@hotmail.com"
@@ -196,8 +202,8 @@ namespace CP.API.Usuario.TesteIntegrado
                 Email = "neco@hotmail.com"
             };
 
-                _context.Usuarios.Add(usuario);
-                _context.SaveChanges();
+            _context.Usuarios.Add(usuario);
+            _context.SaveChanges();
 
             HttpResponseMessage delete = await _client.DeleteAsync($"/api/Usuario/{usuario.Cpf}");
             var response = await delete.Content.ReadAsStringAsync();
@@ -210,7 +216,7 @@ namespace CP.API.Usuario.TesteIntegrado
 
             delete.Should().Be200Ok();
             cliente.Should().BeNull();
-            
+
 
 
             // Assert.AreEqual(usuario.Cpf, cliente.Cpf);
@@ -225,7 +231,7 @@ namespace CP.API.Usuario.TesteIntegrado
             //Arrange
             var usuario = new Api.Usuario.Models.Usuario
             {
-                Cpf = "12345678900",
+                Cpf = new Random().Next(0, 999999999).ToString("00000000000"),
                 Nome = "Gustavo Rocha",
                 Celular = "123456789",
                 Email = "neco@hotmail.com"
@@ -239,37 +245,6 @@ namespace CP.API.Usuario.TesteIntegrado
                 Celular = "123456700",
                 Email = "neco@gmail.com"
             };
-
-            var usuario3 = new List<Api.Usuario.Models.Usuario>()
-            {
-                  new Api.Usuario.Models.Usuario
-                    {
-                        Cpf = "12345678923",
-                        Nome = "Gustavo Rocha",
-                        Celular ="952755705",
-                        Email = "neco@hotmail.com"
-                    },new Api.Usuario.Models.Usuario
-                    {
-                        Cpf = "12345678922",
-                        Nome = "Gustavo Rocha",
-                        Celular ="952755705",
-                        Email = "neco@hotmail.com"
-                    },new Api.Usuario.Models.Usuario
-                    {
-                        Cpf = "12345678924",
-                        Nome = "Gustavo Rocha",
-                        Celular ="952755705",
-                        Email = "neco@hotmail.com"
-                    }
-            };
-
-            foreach (Api.Usuario.Models.Usuario user in usuario3)
-            {
-
-                _context.Usuarios.Add(user);
-                _context.SaveChanges();
-
-            }
 
             _context.Usuarios.Add(usuario);
             _context.SaveChanges();
@@ -302,7 +277,7 @@ namespace CP.API.Usuario.TesteIntegrado
         [OneTimeTearDown]
         public async Task TearDown()
         {
-           // await ExcluirUsuariosDoBancoAsync();
+            // await ExcluirUsuariosDoBancoAsync();
             _client.Dispose();
             _factory.Dispose();
         }

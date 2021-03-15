@@ -1,0 +1,25 @@
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-nanoserver-1903 AS build
+WORKDIR /src
+COPY ["CP.Api.Usuario/CP.Api.Usuario.csproj", "CP.Api.Usuario/"]
+RUN dotnet restore "CP.Api.Usuario/CP.Api.Usuario.csproj"
+COPY . .
+WORKDIR "/src/CP.Api.Usuario"
+RUN dotnet build "CP.Api.Usuario.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "CP.Api.Usuario.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "CP.Api.Usuario.dll"]
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+EXPOSE 80
+EXPOSE 443
+COPY bin/Release/netcoreapp3.1/publish app/
+
+ENTRYPOINT ["dotnet", "CP.Api.Usuario.dll"]

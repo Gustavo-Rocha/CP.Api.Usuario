@@ -356,9 +356,6 @@ namespace CP.APi.Usuario.TesteUnitario
 
 
             var usuarioRepository = mockUsuarioRepository.Object;
-            
-            
-
 
             var controller = new UsuarioController( usuarioRepository);
 
