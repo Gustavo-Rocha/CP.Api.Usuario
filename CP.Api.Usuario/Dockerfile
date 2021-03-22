@@ -5,6 +5,7 @@
 
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build-env
-COPY bin/Release/netcoreapp3.1/publish/ app/
+COPY bin/Release/netcoreapp3.1/publish/ App/
 WORKDIR /App
+ENV ASPNETCORE_URLS=http://+:8000 
 ENTRYPOINT ["dotnet", "CP.Api.Usuario.dll"]
