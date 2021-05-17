@@ -18,14 +18,14 @@
             <param name="Cpf">CPF usado para identificação do usuário</param>
             <returns>Retorna os usuários cadastrados no banco de dados</returns>
         </member>
-        <member name="M:CP.Api.Usuario.Controllers.UsuarioController.Put(CP.Api.Usuario.Models.Usuario)">
+        <member name="M:CP.Api.Usuario.Controllers.UsuarioController.Put(CP.Api.Usuario.Models.UsuarioViewModel)">
             <summary>
             Altera o usuário no Banco de dados
             </summary>
             <param name="usuarios">Objeto utilizado para ser inserido na base, com a atualização </param>
             <returns>StatusCode 204 </returns>
         </member>
-        <member name="M:CP.Api.Usuario.Controllers.UsuarioController.Post(CP.Api.Usuario.Models.Usuario)">
+        <member name="M:CP.Api.Usuario.Controllers.UsuarioController.Post(CP.Api.Usuario.Models.UsuarioViewModel)">
             <summary>
             Tras o usuário cadastrado
             </summary>

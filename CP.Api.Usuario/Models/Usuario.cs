@@ -18,11 +18,15 @@ namespace CP.Api.Usuario.Models
         [StringLength(60, MinimumLength = 3)]
         public string Nome { get; set; }
 
-        [StringLength(9, MinimumLength = 8)]
+        [StringLength(11, MinimumLength = 11)]
         public string Celular { get; set; }
 
         [StringLength(60, MinimumLength = 6)]
         public string Email { get; set; }
+            
+        [Required]
+        [StringLength(64, MinimumLength =64)]
+        public string Senha { get; set; }
 
 
     }

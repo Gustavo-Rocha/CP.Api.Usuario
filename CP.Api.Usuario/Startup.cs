@@ -1,17 +1,23 @@
+using AutoMapper;
+using CP.Api.Usuario.Criptografia;
+using CP.Api.Usuario.EmailConfiguration;
+using CP.Api.Usuario.EmailService;
+using CP.Api.Usuario.Models;
 using CP.Api.Usuario.Repository;
+using CP.Api.Usuario.TokenJWT;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.IO;
-
-
+using System.Security.Cryptography;
+using System.Text;
 
 namespace CP.Api.Usuario
 {
@@ -23,6 +29,7 @@ namespace CP.Api.Usuario
         }
 
         public IConfiguration Configuration { get; }
+        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -34,6 +41,15 @@ namespace CP.Api.Usuario
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
 
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+            services.AddTransient<ICriptografar, Criptografar>();
+            services.AddTransient<IHash256,Hash256>();
+            services.AddSingleton<HashAlgorithm>(SHA256.Create());
+            
+            var notificationMetadata = Configuration.GetSection("NotificationMetadata").Get<NotificationMetadata>();
+            services.AddSingleton(notificationMetadata);
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddTransient<ITokenService, TokenService>();
+            // services.AddTransient<HashAlgorithm>(new HashAlgorithm());
 
             // Configurando o serviço de documentação do Swagger
             services.AddSwaggerGen(c =>
@@ -69,6 +85,42 @@ namespace CP.Api.Usuario
 
             //services.AddHealthChecks()
             //  .AddDbContextCheck<ApplicationContext>();
+
+            AutoMapperConfig(services);
+
+            var key = Encoding.ASCII.GetBytes(Settings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+
+            
+            
+        }
+
+        private void AutoMapperConfig(IServiceCollection services)
+        {
+            var mapperConfiguration = new MapperConfiguration(config=>
+            {
+                config.CreateMap<UsuarioViewModel, Models.Usuario>(); 
+            });
+
+            IMapper mapper = mapperConfiguration.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -90,6 +142,7 @@ namespace CP.Api.Usuario
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -106,6 +159,8 @@ namespace CP.Api.Usuario
                 c.SwaggerEndpoint("/swagger/v1/swagger.json",
                     "API de Usuários");
             });
+
+            
         }
     }
 }

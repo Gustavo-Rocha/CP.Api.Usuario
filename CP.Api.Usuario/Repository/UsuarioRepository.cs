@@ -1,17 +1,23 @@
-﻿using CP.Api.Usuario.Models;
+﻿using CP.Api.Usuario.Criptografia;
+using CP.Api.Usuario.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace CP.Api.Usuario.Repository
 {
     public class UsuarioRepository : IUsuarioRepository
     {
         private readonly ApplicationContext _context;
+        private readonly IHash256 hash;
+       
 
-        public UsuarioRepository(ApplicationContext context)
+        public UsuarioRepository(ApplicationContext context,IHash256 hash)
         {
             _context = context;
+            this.hash = hash;
+
         }
 
         public virtual void DetachLocal(Func<Models.Usuario, bool> predicate)
@@ -24,29 +30,37 @@ namespace CP.Api.Usuario.Repository
 
         }
 
-
         public void Alterar(Models.Usuario usuario)
         {
+            //this.DetachLocal(_ => _.Cpf == usuario.Cpf);
 
-            this.DetachLocal(_ => _.Cpf == usuario.Cpf);
-            
+            var UsuarioAntigo = ConsultarPorParametro(usuario.Cpf);
+            var senhaAtual = usuario.Senha;
 
-
-
+            usuario.Senha = hash.CriptografarSenha(senhaAtual);
             //_context.Entry<Models.Usuario>(usuario).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
-            _context.Usuarios.Update(usuario);
+
+            //if (UsuarioAntigo.Senha != usuario.Senha)
+            //{
+            //    usuario.Senha = hash.CriptografarSenha(usuario.Senha);
+            //}
+            //else
+            //{
+            //    usuario.Senha = UsuarioAntigo.Senha;
+            //}
             //_context.Entry(usuario).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
             //_context.Entry<Models.Usuario>(usuario).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+            this.DetachLocal(_ => _.Cpf == usuario.Cpf);
 
+            _context.Usuarios.Update(usuario);
             _context.SaveChanges();
-        }
+            }
 
         public void Cadastrar(Models.Usuario usuario)
         {
-
-
             try
             {
+                usuario.Senha = hash.CriptografarSenha(usuario.Senha);
                 _context.Usuarios.Add(usuario);
                 _context.SaveChanges();
             }

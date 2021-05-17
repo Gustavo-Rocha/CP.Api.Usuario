@@ -1,10 +1,14 @@
-﻿using CP.Api.Usuario.Models;
+﻿using AutoMapper;
+using CP.Api.Usuario.Models;
 using CP.Api.Usuario.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace CP.Api.Usuario.Controllers
@@ -15,11 +19,14 @@ namespace CP.Api.Usuario.Controllers
     {
 
         private readonly IUsuarioRepository usuarioRepository;
-
-        public UsuarioController(IUsuarioRepository usuarioRepository)
+        private HashAlgorithm algoritmo;
+        private readonly IMapper mapper;
+        public UsuarioController(IUsuarioRepository usuarioRepository,IMapper mapper)
         {
 
             this.usuarioRepository = usuarioRepository;
+            this.mapper = mapper;
+            
         }
 
         /// <summary>
@@ -30,6 +37,7 @@ namespace CP.Api.Usuario.Controllers
 
         // GET: api/Usuario
         [HttpGet]
+        //[Authorize]
         public ActionResult<IEnumerable<Models.Usuario>> Get()
         {
 
@@ -38,7 +46,6 @@ namespace CP.Api.Usuario.Controllers
 
         }
 
-
         /// <summary>
         /// Tras o usuário cadastrado
         /// </summary>
@@ -46,6 +53,7 @@ namespace CP.Api.Usuario.Controllers
         /// <returns>Retorna os usuários cadastrados no banco de dados</returns>
         // GET: api/Usuario/5
         [HttpGet("{Cpf}")]
+        [Authorize]
         public ActionResult<Models.Usuario> Get([Required] string Cpf)
         {
 
@@ -69,7 +77,8 @@ namespace CP.Api.Usuario.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut]
-        public ActionResult<Models.Usuario> Put([FromBody] Models.Usuario usuarios)
+        [Authorize]
+        public ActionResult<Models.Usuario> Put([FromBody] Models.UsuarioViewModel usuarios)
         {
             
             if (!UsuariosExists(usuarios.Cpf))
@@ -77,11 +86,12 @@ namespace CP.Api.Usuario.Controllers
                 return NotFound();
             }
 
-            usuarioRepository.Alterar(usuarios);
+            var usuariosViewModel = mapper.Map<Models.Usuario>(usuarios);
+
+            usuarioRepository.Alterar(usuariosViewModel);
 
             return NoContent();
         }
-
 
         /// <summary>
         /// Tras o usuário cadastrado
@@ -93,12 +103,14 @@ namespace CP.Api.Usuario.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public ActionResult<Models.Usuario> Post(Models.Usuario usuarios)
+        
+        public ActionResult<Models.Usuario> Post(Models.UsuarioViewModel usuarios)
         {
-
+            var usuariosViewModel = mapper.Map<Models.Usuario>(usuarios);
             try
-            {  
-                usuarioRepository.Cadastrar(usuarios);  
+            {
+                
+                usuarioRepository.Cadastrar(usuariosViewModel);  
             }
             catch (DbUpdateException)
             {
@@ -112,12 +124,8 @@ namespace CP.Api.Usuario.Controllers
                 }
             }
 
-            return CreatedAtAction("Get", new { Cpf = usuarios.Cpf }, usuarios);
+            return CreatedAtAction("Get", new { Cpf = usuariosViewModel.Cpf }, usuariosViewModel);
         }
-
-
-
-
 
         /// <summary>
         /// Deleta o usuário da base de dados
@@ -127,20 +135,25 @@ namespace CP.Api.Usuario.Controllers
 
         // DELETE: api/Usuario/5
         [HttpDelete("{Cpf}")]
+        [Authorize]
         public ActionResult<Models.Usuario> Delete(string Cpf)
-        {
+         {
             var usuarios = usuarioRepository.ConsultarPorParametro(Cpf);
             if (usuarios == null)
             {
                 return NotFound();
             }
 
-
             usuarioRepository.Excluir(usuarios);
-
 
             return Ok(usuarios);
         }
+
+
+        [HttpGet]
+        [Route("authenticated")]
+        [Authorize]
+        public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name);
 
         private bool UsuariosExists(string Cpf)
         {
@@ -151,6 +164,4 @@ namespace CP.Api.Usuario.Controllers
 
         }
     }
-
-
 }

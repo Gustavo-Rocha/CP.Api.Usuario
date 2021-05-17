@@ -8,11 +8,10 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace CP.Api.Usuario.Migrations
 {
-    [DbContext(typeof(ApplicationContext))]
     [ExcludeFromCodeCoverage]
+    [DbContext(typeof(ApplicationContext))]
     partial class ApplicationContextModelSnapshot : ModelSnapshot
     {
-
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
@@ -21,15 +20,15 @@ namespace CP.Api.Usuario.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CP.Api.Usuario.Models.Usuarios", b =>
+            modelBuilder.Entity("CP.Api.Usuario.Models.Usuario", b =>
                 {
                     b.Property<string>("Cpf")
-                        .HasColumnType("nvarchar(5)")
+                        .HasColumnType("nvarchar(11)")
                         .HasMaxLength(11);
 
                     b.Property<string>("Celular")
-                        .HasColumnType("nvarchar(9)")
-                        .HasMaxLength(9);
+                        .HasColumnType("nvarchar(11)")
+                        .HasMaxLength(11);
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(60)")
@@ -38,6 +37,11 @@ namespace CP.Api.Usuario.Migrations
                     b.Property<string>("Nome")
                         .HasColumnType("nvarchar(60)")
                         .HasMaxLength(60);
+
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(8)")
+                        .HasMaxLength(8);
 
                     b.HasKey("Cpf");
 
