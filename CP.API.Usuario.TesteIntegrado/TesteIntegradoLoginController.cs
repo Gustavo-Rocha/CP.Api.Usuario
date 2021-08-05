@@ -25,7 +25,6 @@ namespace CP.API.Usuario.TesteIntegrado
         private readonly TokenService tokenServices;
         private readonly IMapper mapper;
 
-
         public TesteIntegradoLoginController()
         {
 
@@ -49,7 +48,6 @@ namespace CP.API.Usuario.TesteIntegrado
         public async Task Excluir()
         {
            // await ExcluirUsuariosDoBancoAsync();
-
         }
 
         public async Task ExcluirUsuariosDoBancoAsync()

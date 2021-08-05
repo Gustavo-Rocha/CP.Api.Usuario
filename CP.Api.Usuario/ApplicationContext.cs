@@ -6,7 +6,6 @@ namespace CP.Api.Usuario
     public class ApplicationContext : DbContext
     {
 
-
         public DbSet<Api.Usuario.Models.Usuario> Usuarios { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)

@@ -60,7 +60,6 @@ namespace CP.Api.Usuario
                         Title = "Crud de Usuários",
                         Version = "v1",
                         Description = "API para CRUD de usuários",
-
                     });
 
                 string caminhoAplicacao =
@@ -72,7 +71,6 @@ namespace CP.Api.Usuario
 
                 //c.IncludeXmlComments(caminhoXmlDoc);
             });
-
 
             //services.AddHealthChecks()
             //    .AddCheck<HealthCheck>(
@@ -105,11 +103,7 @@ namespace CP.Api.Usuario
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
-            });
-
-
-            
-            
+            });  
         }
 
         private void AutoMapperConfig(IServiceCollection services)
@@ -158,9 +152,7 @@ namespace CP.Api.Usuario
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json",
                     "API de Usuários");
-            });
-
-            
+            });  
         }
     }
 }

@@ -11,9 +11,6 @@ var testProjectsRelativePaths = new string[]
 };
 
 
-
-
-
 /*  Change the output artifacts and their configuration here. */
 //pegar diretorio acima
 var parentDirectory =  Directory("..");
@@ -83,21 +80,15 @@ Task("Report")
     ReportGenerator(coverageFilePath, coverageDirectory, reportSettings);
 });
 
-
 Task("Default")
     .IsDependentOn("Report")
     .Does(() => 
     { 
         if (IsRunningOnWindows())
         {
-            
-            
-            
-           
-          
             StartProcess("explorer", "..\\" + pastaCodeCoverage + "\\index.htm");
         }
     });
 
 
-RunTarget(target);0
+RunTarget(target);

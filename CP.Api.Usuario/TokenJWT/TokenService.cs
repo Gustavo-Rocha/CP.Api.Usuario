@@ -26,6 +26,5 @@ namespace CP.Api.Usuario.TokenJWT
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-
     }
 }

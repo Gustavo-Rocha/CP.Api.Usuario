@@ -23,10 +23,8 @@ namespace CP.Api.Usuario.Controllers
         private readonly IMapper mapper;
         public UsuarioController(IUsuarioRepository usuarioRepository,IMapper mapper)
         {
-
             this.usuarioRepository = usuarioRepository;
-            this.mapper = mapper;
-            
+            this.mapper = mapper; 
         }
 
         /// <summary>
@@ -56,7 +54,6 @@ namespace CP.Api.Usuario.Controllers
         [Authorize]
         public ActionResult<Models.Usuario> Get([Required] string Cpf)
         {
-
             var usuarios = usuarioRepository.ConsultarPorParametro(Cpf);
 
             if (usuarios == null)
@@ -78,17 +75,17 @@ namespace CP.Api.Usuario.Controllers
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut]
         [Authorize]
-        public ActionResult<Models.Usuario> Put([FromBody] Models.UsuarioViewModel usuarios)
+        public ActionResult<Models.Usuario> Put([FromBody] Models.UsuarioViewModel usuariosViewModel)
         {
             
-            if (!UsuariosExists(usuarios.Cpf))
+            if (!UsuariosExists(usuariosViewModel.Cpf))
             {
                 return NotFound();
             }
 
-            var usuariosViewModel = mapper.Map<Models.Usuario>(usuarios);
+            var usuarios = mapper.Map<Models.Usuario>(usuariosViewModel);
 
-            usuarioRepository.Alterar(usuariosViewModel);
+            usuarioRepository.Alterar(usuarios);
 
             return NoContent();
         }
@@ -104,13 +101,13 @@ namespace CP.Api.Usuario.Controllers
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         
-        public ActionResult<Models.Usuario> Post(Models.UsuarioViewModel usuarios)
+        public ActionResult<Models.Usuario> Post(Models.UsuarioViewModel usuariosViewModel)
         {
-            var usuariosViewModel = mapper.Map<Models.Usuario>(usuarios);
+            var usuarios = mapper.Map<Models.Usuario>(usuariosViewModel);
             try
             {
                 
-                usuarioRepository.Cadastrar(usuariosViewModel);  
+                usuarioRepository.Cadastrar(usuarios);  
             }
             catch (DbUpdateException)
             {
@@ -124,7 +121,7 @@ namespace CP.Api.Usuario.Controllers
                 }
             }
 
-            return CreatedAtAction("Get", new { Cpf = usuariosViewModel.Cpf }, usuariosViewModel);
+            return CreatedAtAction("Get", new { Cpf = usuarios.Cpf }, usuarios);
         }
 
         /// <summary>
@@ -148,19 +145,12 @@ namespace CP.Api.Usuario.Controllers
 
             return Ok(usuarios);
         }
-
-
-        [HttpGet]
-        [Route("authenticated")]
-        [Authorize]
-        public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name);
-
         private bool UsuariosExists(string Cpf)
         {
 
-            var user = usuarioRepository.ConsultarPorParametro(Cpf);
+            var usuario = usuarioRepository.ConsultarPorParametro(Cpf);
             
-            return user != null;
+            return usuario != null;
 
         }
     }

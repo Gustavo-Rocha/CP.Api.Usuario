@@ -11,13 +11,11 @@ namespace CP.Api.Usuario.Repository
     {
         private readonly ApplicationContext _context;
         private readonly IHash256 hash;
-       
 
         public UsuarioRepository(ApplicationContext context,IHash256 hash)
         {
             _context = context;
             this.hash = hash;
-
         }
 
         public virtual void DetachLocal(Func<Models.Usuario, bool> predicate)
@@ -27,34 +25,20 @@ namespace CP.Api.Usuario.Repository
             {
                 _context.Entry(local).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
             }
-
         }
 
         public void Alterar(Models.Usuario usuario)
         {
-            //this.DetachLocal(_ => _.Cpf == usuario.Cpf);
-
             var UsuarioAntigo = ConsultarPorParametro(usuario.Cpf);
             var senhaAtual = usuario.Senha;
 
             usuario.Senha = hash.CriptografarSenha(senhaAtual);
-            //_context.Entry<Models.Usuario>(usuario).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
 
-            //if (UsuarioAntigo.Senha != usuario.Senha)
-            //{
-            //    usuario.Senha = hash.CriptografarSenha(usuario.Senha);
-            //}
-            //else
-            //{
-            //    usuario.Senha = UsuarioAntigo.Senha;
-            //}
-            //_context.Entry(usuario).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
-            //_context.Entry<Models.Usuario>(usuario).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
             this.DetachLocal(_ => _.Cpf == usuario.Cpf);
 
             _context.Usuarios.Update(usuario);
             _context.SaveChanges();
-            }
+        }
 
         public void Cadastrar(Models.Usuario usuario)
         {
@@ -67,7 +51,7 @@ namespace CP.Api.Usuario.Repository
             catch (Exception e)
             {
 
-                throw e.InnerException;
+                throw;
             }
         }
 
@@ -87,7 +71,6 @@ namespace CP.Api.Usuario.Repository
 
             _context.Usuarios.Remove(usuario);
             _context.SaveChanges();
-
         }
     }
 }

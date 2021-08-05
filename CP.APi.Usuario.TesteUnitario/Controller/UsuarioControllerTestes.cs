@@ -505,7 +505,6 @@ namespace CP.APi.Usuario.TesteUnitario
             Assert.NotNull(sucesso);
             Assert.AreEqual(200, sucesso.StatusCode);
 
-
         }
 
         [Test]

@@ -7,7 +7,6 @@ namespace CP.Api.Usuario.EmailConfiguration
 {
     public class NotificationMetadata
     {
-
         public string Sender { get; set; }
         public string Reciever { get; set; }
         public string SmtpServer { get; set; }

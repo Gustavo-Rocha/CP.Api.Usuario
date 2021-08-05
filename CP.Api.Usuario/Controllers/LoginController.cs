@@ -43,15 +43,15 @@ namespace CP.Api.Usuario.Controllers
         {
             var comparaSenha = criptografarSenha.Descriptografar(loginModel.Cpf, loginModel.Senha);
 
-            var user = usuarioRepository.ConsultarPorParametro(loginModel.Cpf);
+            var usuario = usuarioRepository.ConsultarPorParametro(loginModel.Cpf);
 
             // Verifica se o usuário existe
-            if ((user == null) || (comparaSenha == false))
+            if ((usuario == null) || (comparaSenha == false))
             {
                 return NotFound(new { message = "Usuário ou senha inválidos" });
             }
 
-            var token = tokenService.GenerateToken(user);
+            var token = tokenService.GenerateToken(usuario);
 
             // Retorna os dados
             return Ok( new RetornoLogin
@@ -65,13 +65,14 @@ namespace CP.Api.Usuario.Controllers
         public async Task<IActionResult> RecuperarSenha([Required] LoginModel loginModel)
         {
             var NovaSenha = new Random().Next(0, 999999999).ToString("00000000");
-            var response = emailSender.SendEmail(NovaSenha, loginModel.Email);
+            var resposta = emailSender.SendEmail(NovaSenha, loginModel.Email);
             
             try
             {
-                if (response)
+                if (resposta)
                 {
                     var usuarios = usuarioRepository.ConsultarPorParametro(loginModel.Cpf);
+                    usuarios.Senha = NovaSenha;
                     usuarioRepository.Alterar(usuarios);
                     return Ok();
                 }   

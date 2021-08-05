@@ -49,7 +49,6 @@ namespace CP.API.Usuario.TesteIntegrado
         public async Task Excluir()
         {
             await ExcluirUsuariosDoBancoAsync();
-
         }
 
         public async Task ExcluirUsuariosDoBancoAsync()

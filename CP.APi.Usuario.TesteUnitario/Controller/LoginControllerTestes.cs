@@ -29,7 +29,6 @@ namespace CP.APi.Usuario.TesteUnitario.Controller
         private readonly Mock<SmtpClient> mockSmtpClient;
         private readonly Mock<MailMessage> mockMailmessage;
 
-        
         public LoginControllerTestes()
         {
             
@@ -45,7 +44,7 @@ namespace CP.APi.Usuario.TesteUnitario.Controller
                 Token = token,
                 Valido = true 
             };
-            var user = new Api.Usuario.Models.Usuario
+            var usuario = new Api.Usuario.Models.Usuario
             {
                 Cpf = "12345678910",
                 Nome = "Gustavo Rocha",
@@ -67,20 +66,17 @@ namespace CP.APi.Usuario.TesteUnitario.Controller
             var mockTokenService = new Mock<ITokenService>();
             var mockEmailSender = new Mock<IEmailSender>();
 
-            mockUsuarioRepository.Setup(p => p.ConsultarPorParametro(user.Cpf)).Returns(user);
-            mockTokenService.Setup(_ => _.GenerateToken(user)).Returns(token);
-            mockCriptografar.Setup(_ => _.Descriptografar(user.Cpf, user.Senha)).Returns(true);
-            mockEmailSender.Setup(_ => _.SendEmail("gustavooliveirarocha@hotmail.com", user.Email)).Returns(true);
+            mockUsuarioRepository.Setup(p => p.ConsultarPorParametro(usuario.Cpf)).Returns(usuario);
+            mockTokenService.Setup(_ => _.GenerateToken(usuario)).Returns(token);
+            mockCriptografar.Setup(_ => _.Descriptografar(usuario.Cpf, usuario.Senha)).Returns(true);
+            mockEmailSender.Setup(_ => _.SendEmail("gustavooliveirarocha@hotmail.com", usuario.Email)).Returns(true);
             // mockCriptografar.Setup(_ => _.Descriptografar(user.Cpf, user.Senha)).Returns(false);
             var loginController = new LoginController(mockCriptografar.Object, mockUsuarioRepository.Object, mockEmailSender.Object, mockTokenService.Object);
             
-
             //Act
 
             var responseLoginController = await loginController.Login(login);
-
             var conflict = responseLoginController.Result as OkObjectResult;
-
 
             //Assert
 
@@ -172,7 +168,6 @@ namespace CP.APi.Usuario.TesteUnitario.Controller
             mockEmailSender.Setup(_ => _.SendEmail(It.IsAny<string>(), email)).Returns(true);
           var loginController = new LoginController(mockCriptografar.Object, mockUsuarioRepository.Object, mockEmailSender.Object, mockTokenService.Object);
 
-
           var responseLoginController =  await loginController.RecuperarSenha(login);
 
             var statusCode = responseLoginController as OkResult;
@@ -197,7 +192,6 @@ namespace CP.APi.Usuario.TesteUnitario.Controller
 
             mockEmailSender.Setup(_ => _.SendEmail(It.IsAny<string>(), email)).Returns(false);
             var loginController = new LoginController(mockCriptografar.Object, mockUsuarioRepository.Object, mockEmailSender.Object, mockTokenService.Object);
-
 
             var responseLoginController = await loginController.RecuperarSenha(login);
 

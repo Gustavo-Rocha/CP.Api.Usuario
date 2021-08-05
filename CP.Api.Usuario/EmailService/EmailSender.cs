@@ -19,7 +19,7 @@ namespace CP.Api.Usuario.EmailService
             var fromAddress = new MailAddress(_notificationMetadata.Sender, "Gustavo Oliveira");
             var toAddress = new MailAddress(reciever);
             const string fromPassword = "66214582@gu";
-            //const string subject = "MAMADA COLOSSAL";
+            //const string subject = " ";
             //const string body = senha;
 
             var smtp = new System.Net.Mail.SmtpClient
@@ -29,7 +29,7 @@ namespace CP.Api.Usuario.EmailService
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress.Address, _notificationMetadata.Password)
+                Credentials = new NetworkCredential(fromAddress.Address, _notificationMetadata.Password),
             };
             using (var message = new MailMessage(fromAddress, toAddress)
             {
@@ -43,8 +43,7 @@ namespace CP.Api.Usuario.EmailService
                 }
                 catch (System.Exception e)
                 {
-
-                    throw e.InnerException;
+                    throw;
                 }
                 
             }
